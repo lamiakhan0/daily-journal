@@ -60,3 +60,24 @@ footer {
   color: #999999;
   text-align: center;
 }
+
+nav {
+  margin-top: 16px;
+}
+
+nav a {
+  display: inline-block;
+  margin-right: 20px;
+  text-decoration: none;
+  color: #333333;
+  font-family: Arial, sans-serif;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding-bottom: 4px;
+  border-bottom: 2px solid transparent;
+}
+
+nav a:hover {
+  border-bottom: 2px solid #333333;
+}
