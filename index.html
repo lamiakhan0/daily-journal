@@ -14,8 +14,17 @@
     <nav>
       <a href="index.html">Home</a>
       <a href="about.html">About</a>
+      <a href="#" id="toggle-form-btn">+ New Entry</a>
     </nav>
   </header>
+
+  <div class="new-entry-form" id="new-entry-form" style="display:none;">
+    <h2>New Entry</h2>
+    <input type="text" id="form-title" placeholder="Title" />
+    <input type="text" id="form-tags" placeholder="Tags (comma separated, e.g. css, git)" />
+    <textarea id="form-body" placeholder="Write your entry here..."></textarea>
+    <button id="publish-btn">Publish</button>
+  </div>
 
   <div class="search-bar">
     <input type="text" id="search" placeholder="Search entries..." />
@@ -25,8 +34,7 @@
 
   <p class="entry-count" id="entry-count"></p>
 
-  <main id="entries-container">
-  </main>
+  <main id="entries-container"></main>
 
   <footer>
     <p>Written and built by Lamia Khan</p>

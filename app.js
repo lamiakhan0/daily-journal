@@ -3,6 +3,7 @@ let activeTag = null;
 function renderTags() {
   const allTags = [...new Set(entries.flatMap(e => e.tags))];
   const container = document.getElementById("tag-filter");
+  container.innerHTML = "";
 
   allTags.forEach(function(tag) {
     const btn = document.createElement("button");
@@ -63,6 +64,37 @@ function renderEntries(filter) {
 
 document.getElementById("search").addEventListener("input", function() {
   renderEntries(this.value);
+});
+
+document.getElementById("toggle-form-btn").addEventListener("click", function(e) {
+  e.preventDefault();
+  const form = document.getElementById("new-entry-form");
+  form.style.display = form.style.display === "none" ? "block" : "none";
+});
+
+document.getElementById("publish-btn").addEventListener("click", function() {
+  const title = document.getElementById("form-title").value.trim();
+  const body = document.getElementById("form-body").value.trim();
+  const tagsInput = document.getElementById("form-tags").value.trim();
+
+  if (!title || !body) {
+    alert("Please fill in a title and body.");
+    return;
+  }
+
+  const tags = tagsInput ? tagsInput.split(",").map(t => t.trim().toLowerCase()) : [];
+  const today = new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+
+  const newEntry = { date: today, title, body, tags };
+  entries.unshift(newEntry);
+
+  document.getElementById("form-title").value = "";
+  document.getElementById("form-body").value = "";
+  document.getElementById("form-tags").value = "";
+  document.getElementById("new-entry-form").style.display = "none";
+
+  renderTags();
+  renderEntries();
 });
 
 renderTags();
