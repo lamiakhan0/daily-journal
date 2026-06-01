@@ -1,7 +1,25 @@
 let activeTag = null;
+let allEntries = [];
+
+function loadEntries() {
+  const saved = localStorage.getItem("journal-entries");
+  if (saved) {
+    allEntries = JSON.parse(saved).concat(entries);
+  } else {
+    allEntries = entries;
+  }
+}
+
+function saveEntries(newEntry) {
+  const saved = localStorage.getItem("journal-entries");
+  const localEntries = saved ? JSON.parse(saved) : [];
+  localEntries.unshift(newEntry);
+  localStorage.setItem("journal-entries", JSON.stringify(localEntries));
+  allEntries = localEntries.concat(entries);
+}
 
 function renderTags() {
-  const allTags = [...new Set(entries.flatMap(e => e.tags))];
+  const allTags = [...new Set(allEntries.flatMap(e => e.tags))];
   const container = document.getElementById("tag-filter");
   container.innerHTML = "";
 
@@ -29,8 +47,8 @@ function renderEntries(filter) {
   container.innerHTML = "";
 
   let filtered = activeTag
-    ? entries.filter(e => e.tags.includes(activeTag))
-    : entries;
+    ? allEntries.filter(e => e.tags.includes(activeTag))
+    : allEntries;
 
   if (filter) {
     const keyword = filter.toLowerCase();
@@ -86,7 +104,7 @@ document.getElementById("publish-btn").addEventListener("click", function() {
   const today = new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
 
   const newEntry = { date: today, title, body, tags };
-  entries.unshift(newEntry);
+  saveEntries(newEntry);
 
   document.getElementById("form-title").value = "";
   document.getElementById("form-body").value = "";
@@ -97,5 +115,6 @@ document.getElementById("publish-btn").addEventListener("click", function() {
   renderEntries();
 });
 
+loadEntries();
 renderTags();
 renderEntries();
